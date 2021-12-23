@@ -1,18 +1,32 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
 #include "sensor_msgs/LaserScan.h"
+#include "robot_controller/Velocity.h"
 #include <iostream>
 
 using namespace std;
 
 float ranges[720], right_side[320], left_side[320], front_side[80];
 
-float dan_th = 0.25;
+float dan_th = 0.35;
 float th = 1.5;
 
-float speed_n = 2.0;
+float speed_n = 0.5;
 
 ros::Publisher pub;
+
+bool velocityControl(robot_controller::Velocity::Request &req, robot_controller::Velocity::Response &res){
+
+	if(req.command == 'i'){
+		res.speed += 0.5; 
+	}
+	else if(req.command == 'd'){
+		res.speed -= 0.5;
+	}
+	
+	speed_n += res.speed;
+	return true;
+}
 
 float min_right_side(float * f){
 	float min_r = 100;
@@ -75,6 +89,7 @@ void avoid_obstacle(float front, float left, float right){
 
 	float speed_r = right;
 	float speed_l = left;
+	float speed_d = left + right;
 
 	if(front > th){
 		drive(speed_n,0.0);
@@ -83,19 +98,21 @@ void avoid_obstacle(float front, float left, float right){
 		if(left < right){
 			cout<<"turn right"<<endl;
 			if(left < dan_th){
-				turn_only(-speed_r);
+				cout<<"too close to the obstacle"<<endl;
+				turn_only(-speed_d);
 			}
 			else{
-				drive(speed_r, -1);
+				drive(speed_d, -1);
 			}
 		}
 		else if(right < left){
 			cout<<"turn left"<<endl;
 			if(right < dan_th){
-				turn_only(speed_l);
+				cout<<"too close to the obstacle"<<endl;
+				turn_only(speed_d);
 			}
 			else{
-				drive(speed_l, 1);
+				drive(speed_d, 1);
 			}
 		}
 	}
@@ -111,9 +128,10 @@ void robotCallback(const sensor_msgs::LaserScan::ConstPtr& msg){
 	float l = min_left_side(ranges);
 	float r = min_right_side(ranges);
 	
-	cout<<"min front distance = "<<f<<endl;
-	cout<<"min left distance = "<<l<<endl;
-	cout<<"min right distance = "<<r<<endl;
+	cout<<"the robot speed is : "<<speed_n<<endl;
+	cout<<"min front distance is : "<<f<<endl;
+	cout<<"min left distance is : "<<l<<endl;
+	cout<<"min right distance is : "<<r<<endl;
 	cout<<"--------------------------------------------"<<endl;
 	
 	avoid_obstacle(f, l, r);
@@ -128,7 +146,8 @@ int main(int argc, char ** argv){
 	ros::Subscriber sub1 = n.subscribe("/base_scan",1000,robotCallback);
 	pub = n.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
 
-		
+	ros::ServiceServer service_velocity = n.advertiseService("/velocity_control", velocityControl);
+
 	ros::spin();
 
 	return 0;
