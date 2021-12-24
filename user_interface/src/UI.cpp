@@ -19,7 +19,7 @@ int main(int argc, char ** argv){
     
 
     while(ros::ok()){
-
+        cout<<endl;
         cout<<"Hi this is the robot user interface, you have the following commands : "<<endl;
         cout<<"-----------------------------------------------------------------------"<<endl;
         cout<<"-- press i if you want to increase the robot velocity."<<endl;
