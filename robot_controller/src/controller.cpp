@@ -8,8 +8,8 @@ using namespace std;
 
 float ranges[720], right_side[320], left_side[320], front_side[80];
 
-float dan_th = 0.35;
-float th = 1.5;
+float dan_th = 0.45;
+float th = 2.0;
 
 float speed_n = 0.5;
 
@@ -102,7 +102,7 @@ void avoid_obstacle(float front, float left, float right){
 				turn_only(-speed_d);
 			}
 			else{
-				drive(speed_d, -1);
+				drive(speed_d, -1.7);
 			}
 		}
 		else if(right < left){
@@ -112,7 +112,7 @@ void avoid_obstacle(float front, float left, float right){
 				turn_only(speed_d);
 			}
 			else{
-				drive(speed_d, 1);
+				drive(speed_d, 1.7);
 			}
 		}
 	}
