@@ -1,0 +1,61 @@
+While the simulation is running
+
+    listen for User Interface node
+
+    if User Interface sends a request (command)
+
+        if the request is equal to 'i'
+
+            increase the speed (response) of 0.5
+
+        else if the request is equal to 'd'
+
+            decrease the speed (response) of 0.5
+
+    take sensor data from the laser scan and save 
+    each data in the ranges array (size = 720)
+
+    Save ranges array data from 0 to 320 in right_side array
+    and evaluate the minimum value.
+
+    Save ranges array data from 320 to 400 in front_side array
+    and evaluate the minimum value.
+
+    Save ranges array data from 400 to 720 in left_side array
+    and evaluate the minimum value.
+
+    if the minimum value of front_side is greater than the threshold
+
+        drive straight with the linear speed 
+        increased or decreased by the user
+
+    else if the minimum value of front_side is less than the threshold
+
+        if the minimum value of left_side is less than the minimum value of right_side
+
+            if the minimum value of left_side is less than the dangerous threshold (too close to the wall)
+
+                turn right with a linear speed equals to zero and with and
+                angular speed equals to the sum of the right and left distance from the walls
+
+            else 
+
+                turn right with a linear speed equals to the sum of the right and 
+                left distance from the walls and an angular speed equals to -1.7
+
+        else if the minimum value of right_side is less than the minimum value of the left_side 
+
+            if the minimum value of right_side is less than the dangerous threshold (too close to the wall)
+
+                turn left with a linear speed equals to zero and with an
+                angular speed equals to the sum of the right and left distance from the walls
+
+            else
+
+                turn left with a linear speed equals to the sum of the right and 
+                left distance from the walls and an angular speed equals to -1.7
+
+        
+
+
+                
