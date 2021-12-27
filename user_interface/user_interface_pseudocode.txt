@@ -1,0 +1,20 @@
+while the simulation is running 
+
+    listen for user request (command)
+
+    if the user request is 'r'
+
+        reset the robot position
+
+    else if the user request is 'i' or 'd'
+
+        call the server that manage the custom service
+        for increasing or decreasing the robot speed
+
+    else if the user request is 'q'
+
+        exit
+
+    else
+
+        user typing error
