@@ -3,7 +3,7 @@
 ## Introduction 
 The aim of this project is similar to the first one, but in this case the robot, autonomously, has to run across this race track, avoiding the walls :
 
-![tracciato](https://github.com/GabrieleRusso11/RT1_Second_Assignment/tree/main/second_assignment/world)
+![tracciato](https://github.com/GabrieleRusso11/RT1_Second_Assignment/blob/main/second_assignment/world/tracciato.png)
 
 ## Installation and how to run
 Firstly download in the src folder of your ROS workspace, this repository using the following command in the shell :
